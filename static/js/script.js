@@ -149,6 +149,7 @@ let blackjackGame = {
     'you': {'scoreSpan' : '#your-blackjack-result', 'div':'#your-box', 'score':0},
     'dealer': {'scoreSpan' : '#dealer-blackjack-result', 'div':'#dealer-box', 'score':0},
     'cards': ['2','3','4','5','6','7','8','9','10','K','J','Q','A'],
+    'cardsMap' : {'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'K':10,'J':10,'Q':10,'A':[1,11]}
 };
 
 const YOU = blackjackGame['you']
@@ -162,7 +163,8 @@ document.querySelector('#blackjack-deal-button').addEventListener('click', black
 function blackjackHit() {
     let card = randomCard();
     showCard(card, YOU);
-    // showCard(DEALER);
+    updateScore(card, YOU);
+    showScore(YOU)
 }
 
 function randomCard() {
@@ -190,3 +192,10 @@ function blackjackDeal() {
     }
 }
 
+function updateScore(card, activePlayer) {
+    activePlayer['score'] += blackjackGame.cardsMap[card]
+}
+
+function showScore(activePlayer) {
+    document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer.score
+}
