@@ -158,6 +158,8 @@ const DEALER = blackjackGame['dealer']
 const hitSound =  new Audio('static/sounds/sounds_swish.m4a')
 document.querySelector('#blackjack-hit-button').addEventListener('click', blackjackHit);
 
+document.querySelector('#blackjack-stand-button').addEventListener('click', dealerLogic);
+
 document.querySelector('#blackjack-deal-button').addEventListener('click', blackjackDeal);
 
 function blackjackHit() {
@@ -227,3 +229,10 @@ function showScore(activePlayer) {
     }
 }
 
+function dealerLogic() {
+    let card = randomCard();
+    // show card on dealer side
+    showCard(card, DEALER);
+    updateScore(card, DEALER)
+    showScore(DEALER);
+}
