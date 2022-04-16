@@ -227,7 +227,6 @@ function blackjackDeal() {
 }
 
 function updateScore(card, activePlayer) {
-    // If adding 11 keeps me below 21, add 11 . Otherwise add 1.
     if (card === 'A') {
         if (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <= 21) {
             activePlayer['score'] += blackjackGame['cardsMap'][card][1];
@@ -248,19 +247,26 @@ function showScore(activePlayer) {
     }
 }
 
-function dealerLogic() {
-    blackjackGame.isStand = true;
-    let card = randomCard();
-    showCard(card, DEALER);
-    updateScore(card, DEALER)
-    showScore(DEALER);
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    if(DEALER['score'] > 15) {
-        blackjackGame.turnsOver = true;
-        let winner = computeWinner();
-        showResult(winner);
-        console.log(blackjackGame.turnsOver)
-    }
+async function dealerLogic() {
+
+    blackjackGame.isStand = true;
+
+    while(DEALER.score < 16 && blackjackGame.isStand ===true) {
+        let card = randomCard();
+        showCard(card, DEALER);
+        updateScore(card, DEALER)
+        showScore(DEALER);
+        await sleep(1000)
+    }    
+    blackjackGame.turnsOver = true;
+    let winner = computeWinner();
+    showResult(winner);
+
+
 }
 
 
